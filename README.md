@@ -1,7 +1,8 @@
 # ticken-dev
 
-### Common errors
+## Common errors
 
+#### Running local PVTBC
 * `scripts/ccutils.sh: line 25: jq: command not found`
 
 This error is caused by missing the jq dependency. `jq` is a shell 
