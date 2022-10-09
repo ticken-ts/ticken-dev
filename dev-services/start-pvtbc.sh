@@ -6,27 +6,27 @@ function getFullPath() {
 }
 
 
-cd ../test-network
-echo $(getFullPath $PWD/../../ticken-chaincodes/ticket-chaincode)
+cd ../test-pvtbc/test-network
 
 # up the network using couchbase
 # as a main database for the peer
 sh network.sh up -s couchbase
 
 # create a channel
-sh network.sh createChannel -c ticken-test-channel 
+sh network.sh createChannel -c ticken-channel 
 
-# deploy a event chaincode
-# sh network.sh deployCC \
-# -ccn ticken-event \
-# -ccp $(getFullPath $PWD/../../ticken-chaincodes/ticken-event-chaincode) \
-# -ccl go \
-# -c ticken-test-channel
+deploy a event chaincode
+sh network.sh deployCC \
+-ccn ticken-event \
+-ccp $(getFullPath $PWD/../../../ticken-chaincodes/ticken-event-chaincode) \
+-ccl go \
+-c ticken-channel
 
 
 # deploy a ticket chaincode
 sh network.sh deployCC \
 -ccn ticken-ticket \
--ccp $(getFullPath $PWD/../../ticken-chaincodes/ticken-ticket-chaincode) \
+-ccp $(getFullPath $PWD/../../../ticken-chaincodes/ticken-ticket-chaincode) \
 -ccl go \
--c ticken-test-channel
+-c ticken-channel
+
