@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 function getFullPath() {
     relativePath=$1
@@ -10,13 +10,13 @@ cd ../test-pvtbc/test-network
 
 # up the network using couchbase
 # as a main database for the peer
-sh network.sh up -s couchbase
+./network.sh up -s couchbase
 
 # create a channel
-sh network.sh createChannel -c ticken-channel 
+./network.sh createChannel -c ticken-channel
 
 deploy a event chaincode
-sh network.sh deployCC \
+./network.sh deployCC \
 -ccn ticken-event \
 -ccp $(getFullPath $PWD/../../../ticken-chaincodes/ticken-event-chaincode) \
 -ccl go \
@@ -24,7 +24,7 @@ sh network.sh deployCC \
 
 
 # deploy a ticket chaincode
-sh network.sh deployCC \
+./network.sh deployCC \
 -ccn ticken-ticket \
 -ccp $(getFullPath $PWD/../../../ticken-chaincodes/ticken-ticket-chaincode) \
 -ccl go \
