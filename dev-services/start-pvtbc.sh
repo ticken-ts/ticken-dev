@@ -13,20 +13,20 @@ export FABRIC_CFG_PATH=$PWD/../config/
 
 # up the network using couchbase
 # as a main database for the peer
-sh network.sh up -s couchbase
+bash network.sh up -s couchbase
 
 # create a channel
-sh network.sh createChannel -c ticken-channel 
+bash network.sh createChannel -c ticken-channel 
 
 # deploy a event chaincode
-sh network.sh deployCC \
+bash network.sh deployCC \
 -ccn ticken-event \
 -ccp $(getFullPath $PWD/../../../ticken-chaincodes/ticken-event-chaincode) \
 -ccl go \
 -c ticken-channel
 
 # deploy a ticket chaincode
-sh network.sh deployCC \
+bash network.sh deployCC \
 -ccn ticken-ticket \
 -ccp $(getFullPath $PWD/../../../ticken-chaincodes/ticken-ticket-chaincode) \
 -ccl go \
