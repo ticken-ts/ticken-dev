@@ -1,9 +1,3 @@
 .idea
 .DS_Store
-
-/dev-services/ticken-db
-
-# hyperledger farbic test-newtwork and binaries
-/test-pvtbc/bin
-/test-pvtbc/config
-/test-pvtbc/test-network
+ticken-db
