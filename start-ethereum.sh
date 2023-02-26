@@ -1,0 +1,1 @@
+ganache --wallet.deterministic --wallet.totalAccounts 2
