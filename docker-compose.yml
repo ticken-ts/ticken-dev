@@ -1,0 +1,44 @@
+version: "3.0"
+services:
+  ethereum:
+    image: trufflesuite/ganache-cli:latest
+    container_name: ethereum
+    ports:
+      - "8545:8545"
+    volumes:
+      - ./ethereum-db:/ethereum/ethereum-db
+    working_dir: /ethereum
+    command: ganache --deterministic --accounts 2 --db ./ethereum-db
+
+  keycloak:
+
+    build: ./keycloak
+    container_name: keycloak
+    ports:
+      - "8080:8080"
+    environment:
+        KEYCLOAK_ADMIN: admin
+        KEYCLOAK_ADMIN_PASSWORD: admin
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: admin
+        MONGO_INITDB_ROOT_PASSWORD: admin
+    volumes:
+      - ./ticken-db:/data/db
+    command: mongod --dbpath /data/db
+
+  bus:
+    image: rabbitmq:3.7.7-management
+    container_name: bus
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+        RABBITMQ_DEFAULT_USER: user
+        RABBITMQ_DEFAULT_PASS: password
+    command: rabbitmq-server
