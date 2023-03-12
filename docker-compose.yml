@@ -6,19 +6,36 @@ services:
     ports:
       - "8545:8545"
     volumes:
-      - ./ethereum-db:/ethereum/ethereum-db
+      - "ethereum-db:/ethereum/ethereum-db"
     working_dir: /ethereum
     command: ganache --deterministic --accounts 2 --db ./ethereum-db
 
   keycloak:
-
-    build: ./keycloak
+    image: bitnami/keycloak:latest
     container_name: keycloak
     ports:
       - "8080:8080"
+    volumes:
+      - './keycloak/keycloak-themes:/opt/bitnami/keycloak/themes'
+      - './keycloak/keycloak-realms:/opt/bitnami/keycloak/data/import'
     environment:
-        KEYCLOAK_ADMIN: admin
-        KEYCLOAK_ADMIN_PASSWORD: admin
+      KEYCLOAK_CREATE_ADMIN_USER: "true"
+      KEYCLOAK_ADMIN_USER: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KEYCLOAK_DATABASE_HOST: keycloak-postgresql
+      KEYCLOAK_DATABASE_NAME: keycloak
+      KEYCLOAK_DATABASE_USER: keycloak
+      KEYCLOAK_EXTRA_ARGS: "-Dkeycloak.migration.action=import -Dkeycloak.migration.strategy=IGNORE_EXISTING -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/opt/bitnami/keycloak/data/import/keycloak-realms.json"
+
+  keycloak-postgresql:
+    image: docker.io/bitnami/postgresql:latest
+    container_name: keycloak-postgresql
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - POSTGRESQL_USERNAME=keycloak
+      - POSTGRESQL_DATABASE=keycloak
+    volumes:
+      - 'keycloak-db:/bitnami/postgresql'
 
   mongo:
     image: mongo:latest
@@ -29,7 +46,7 @@ services:
         MONGO_INITDB_ROOT_USERNAME: admin
         MONGO_INITDB_ROOT_PASSWORD: admin
     volumes:
-      - ./ticken-db/mongo:/data/db
+      - "mongo-db:/data/db"
     command: mongod --dbpath /data/db
 
   bus:
@@ -42,3 +59,11 @@ services:
         RABBITMQ_DEFAULT_USER: user
         RABBITMQ_DEFAULT_PASS: password
     command: rabbitmq-server
+
+volumes:
+  keycloak-db:
+    driver: local
+  ethereum-db:
+    driver: local
+  mongo-db:
+    driver: local
