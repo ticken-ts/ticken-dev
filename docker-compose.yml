@@ -25,7 +25,6 @@ services:
       KEYCLOAK_DATABASE_HOST: keycloak-postgresql
       KEYCLOAK_DATABASE_NAME: keycloak
       KEYCLOAK_DATABASE_USER: keycloak
-      KEYCLOAK_EXTRA_ARGS: "-Dkeycloak.migration.action=import -Dkeycloak.migration.strategy=IGNORE_EXISTING -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/opt/bitnami/keycloak/data/import/keycloak-realms.json"
 
   keycloak-postgresql:
     image: docker.io/bitnami/postgresql:latest
